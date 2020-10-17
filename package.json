@@ -29,11 +29,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "watch": "webpack --mode development --watch",
-    "start:dev": "webpack-dev-server --mode=development"
+    "watch": "webpack --mode development",
+    "build": "webpack -p",
+    "start:dev": "webpack-dev-server --mode=development",
+    "start:prod": "webpack-dev-server --mode=production"
   },
   "eslintConfig": {
     "extends": "react-app"
