@@ -43,7 +43,10 @@ module.exports = () => {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public",  "index.html")
     }),
-    new webpack.DefinePlugin(envKeys)
+    new webpack.DefinePlugin(envKeys),
+    new webpack.DefinePlugin({
+      "process.env.REACT_APP_KEY": JSON.stringify(process.env.REACT_APP_KEY)
+    }),
   ]
 }
 };
