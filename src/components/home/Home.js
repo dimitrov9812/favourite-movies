@@ -69,7 +69,6 @@ const Home = () => {
                 <Button onClick={() => scrollTop()}>
                     Scroll to Top
                 </Button>
-                </Button>
                 <Button onClick={() => scrollTop()}>
                     {process.env.ACCESS_TOKEN}
                 </Button>
