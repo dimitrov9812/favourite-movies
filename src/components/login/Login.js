@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // MUI Core
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styles from './LoginStyle.module.css';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import { RootStoreContext } from '../../store/RootStore';
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
+
+const Login = ({ navigation }) => {
+    const store = useContext(RootStoreContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
+    let history = useHistory();
     // clear the error on key press
     useEffect(() => {
         const keyPressHandler = () => {
@@ -36,9 +40,12 @@ const Login = () => {
                 console.log(res.data);
                 setError(res.data);
             } else {
-                if (res.statusText === "Created") {
-                    console.log("user created")
+                if (res.data.message === "Logged in successfully") {
+                    store.userStore.loginUser(res.data.user);
+                    return history.push('/home');
                 }
+
+                console.log(res);
             }
         } catch (e) {
             console.log(e);

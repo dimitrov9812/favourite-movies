@@ -1,7 +1,17 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const dotenv = require('dotenv');
+const webpack = require('webpack');
 
-module.exports = {
+module.exports = () => {
+  const env = dotenv.config().parsed;
+
+  const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+  }, {});
+  
+  return {
   mode: 'development',
   entry: ['babel-polyfill','./src/index.js'],
   output: {
@@ -32,8 +42,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "public",  "index.html")
-    })
+    }),
+    new webpack.DefinePlugin(envKeys)
   ]
+}
 };
 
 // const path = require('path');

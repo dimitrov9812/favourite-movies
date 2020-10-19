@@ -5,6 +5,7 @@ import Login from './components/login/Login';
 import Register from './components/register/Register';
 import Home from './components/home/Home';
 import Favourites from './components/favourites/Favourites';
+import Profile from './components/profile/Profile';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" exact component={Register} />
         <Route path="/home" exact component={Home} />
         <Route path="/favourites" exact component={Favourites} />
+        <Route path="/profile" exact component={Profile} />
       </Switch>
     </Router>
   );
