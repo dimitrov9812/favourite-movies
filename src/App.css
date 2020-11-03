@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.test {
+  background-color: red;
+}
+
+.darkMode {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.darkImg {
+  background-color: black;
+  filter: invert(1) hue-rotate(180deg)
+}

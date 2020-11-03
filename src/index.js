@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import 'regenerator-runtime/runtime';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';

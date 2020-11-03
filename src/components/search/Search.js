@@ -4,24 +4,21 @@ import Nav from '../../navigation/Nav';
 import { RootStoreContext } from '../../store/RootStore';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { RingLoader } from 'react-spinners';
-import { useObserver } from 'mobx-react';
-import useForceUpdate from 'use-force-update';
 
-const Home = () => {
+const Search = (props) => {
     const store = useContext(RootStoreContext);
     const [movies, setMovies] = useState({});
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
-    const forceUpdate = useForceUpdate();
 
     useEffect(() => {
         setLoading(true);
-        store.userStore.getMovies('top-rated').then(() => {
+        store.userStore.getMovies(props.match.params.filter).then(() => {
             console.log("after");
             setMovies(store.userStore.movies);
             setLoading(false);
         });
-    }, [store.userStore])
+    }, [props.match.params.filter])
 
     const nextPage = () => {
         setLoading(true);
@@ -56,11 +53,12 @@ const Home = () => {
                             title={movie.title}
                             style={{ justifyContent: 'center', alignItems: 'center' }}
                         >
-                            <img className={store.userStore.nightMode? 'darkImg' : null} src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="recipe thumbnail" />
+                            <img src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt="recipe thumbnail" />
                         </CardMedia>
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
                                 {movie.title}
+                                <FavoriteBorderIcon onClick={() => console.log("added to favourites:" + movie.id)} style={{ position: 'absolute', top: 400, right: 20, fontSize: 40, color: 'red' }} />
                             </Typography>
                             <Typography variant="body2" color="textSecondary" component="p">
                                 {movie.overview}
@@ -86,34 +84,29 @@ const Home = () => {
                         {renderMovieCards()}
                     </div>
                     <div style={{display:'flex',justifyContent:'center', alignContent:'center',}}>
-                        <Button onClick={() => previousPage()}>
-                            Previous page
-                        </Button>
-                        <Button onClick={() => nextPage()}>
-                            Next page
-                        </Button>
                         <Button style={{position:'absolute',right:250}} onClick={() => scrollTop()}>
                             Scroll to Top
                         </Button>
                     </div>
                 </div>
+
             )
         }
 
         return (
-        <h1>No movies to render {store.userStore.test}</h1>
+            <h1>No movies to render</h1>
         )
     }
-    return useObserver(() => (
+    return (
         <div>
             <Nav />
-            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', backgroundColor: '#e8e7e3'}}>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', backgroundColor: '#e8e7e3'}}>
                 <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', width: '80%', margin: '0 auto' }}>
                     {renderMovies()}
                 </div>
             </div>
         </div>
-    ))
+    )
 }
 
-export default Home;
+export default Search;

@@ -6,19 +6,27 @@ import Register from './components/register/Register';
 import Home from './components/home/Home';
 import Favourites from './components/favourites/Favourites';
 import Profile from './components/profile/Profile';
+import Upcoming from './components/upcoming/Upcoming';
+import Popular from './components/latest/Popular';
+import Search from './components/search/Search';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Login} />
-        <Route path="/login" exact component={Login}/>
-        <Route path="/register" exact component={Register} />
-        <Route path="/home" exact component={Home} />
-        <Route path="/favourites" exact component={Favourites} />
-        <Route path="/profile" exact component={Profile} />
-      </Switch>
-    </Router>
+      <div>
+        <Router>
+          <Switch>
+            <Route path="/" exact component={Login} />
+            <Route path="/login" exact component={Login}/>
+            <Route path="/register" exact component={Register} />
+            <Route path="/home" exact component={Home} />
+            <Route path="/favourites" exact component={Favourites} />
+            <Route path="/profile" exact component={Profile} />
+            <Route path="/popular" exact component={Popular} />
+            <Route path="/upcoming" exact component={Upcoming} />
+            <Route path="/search/:filter" exact component={Search} />
+          </Switch>
+        </Router>
+      </div>
   );
 }
 
