@@ -43,6 +43,10 @@ class UserStore {
             case "upcoming":
                 this.URL = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_KEY}&language=en-US&page=${this.page}`
                 break;
+            case "random":
+                let random = Math.floor(Math.floor((Math.random() * 10000) + 1))
+                this.URL = `https://api.themoviedb.org/3/movie/${random}?api_key=${process.env.REACT_APP_KEY}&language=en-US`
+                break;
             case '':
                 this.URL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_KEY}&language=en-US&page=${this.page}`
                 break;
@@ -55,11 +59,24 @@ class UserStore {
         // get the movies
             const movies = await Axios.get(this.URL);
 
-            await Promise.resolve(movies).then((res) => {
-                console.log(res.data.results)
-                this.movies = res.data.results;
-                this.isLoading = false;
-            })
+            if(filter === 'random') {
+                try {
+                    await Promise.resolve(movies).then((res) => {
+                    
+                    this.movies = res.data;
+                    this.isLoading = false;
+                    })
+                }
+                catch(e){
+                    await this.getMovies('random');
+                }
+            }
+            else {
+                await Promise.resolve(movies).then((res) => {
+                    this.movies = res.data.results;
+                    this.isLoading = false;
+                })
+            }
     }
 
     @action

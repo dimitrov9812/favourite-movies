@@ -34,6 +34,7 @@ const Nav = ({ navigation }) => {
                                     size="small"
                                     style={{ margin: 10 }}
                                     startIcon={<SearchIcon />}>Search</Button></Link>
+                                <Link to="/random" onClick={() => console.log("random")}><Tab label="Random"></Tab></Link>
                                 <Link onClick={() => console.log("logging out")}><Tab label="Logout"></Tab></Link>
                             </div>
                         </div>

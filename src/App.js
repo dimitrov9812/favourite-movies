@@ -9,6 +9,7 @@ import Profile from './components/profile/Profile';
 import Upcoming from './components/upcoming/Upcoming';
 import Popular from './components/latest/Popular';
 import Search from './components/search/Search';
+import Random from './components/random/Random';
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
             <Route path="/register" exact component={Register} />
             <Route path="/home" exact component={Home} />
             <Route path="/favourites" exact component={Favourites} />
-            <Route path="/profile" exact component={Profile} />
+            <Route path="/random" exact component={Random} />
             <Route path="/popular" exact component={Popular} />
             <Route path="/upcoming" exact component={Upcoming} />
             <Route path="/search/:filter" exact component={Search} />
