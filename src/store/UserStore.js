@@ -19,6 +19,7 @@ class UserStore {
     @observable filter = '';
     @observable page = 1;
     @observable URL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_KEY}&language=en-US&page=${this.page}`;
+    @observable selectedMovieId = '';
 
     @action
     loginUser = (user) => {
@@ -47,19 +48,26 @@ class UserStore {
                 let random = Math.floor(Math.floor((Math.random() * 10000) + 1))
                 this.URL = `https://api.themoviedb.org/3/movie/${random}?api_key=${process.env.REACT_APP_KEY}&language=en-US`
                 break;
+            case "details":
+                let id = this.selectedMovieId;
+                this.URL = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_KEY}&language=en-US`
+                break;
+            case "search":
+                this.URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_KEY}&language=en-US&query=${this.filter}&page=1&include_adult=false`
+                break;
             case '':
                 this.URL = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_KEY}&language=en-US&page=${this.page}`
                 break;
             default:
                 console.log(filter)
-                this.URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_KEY}&language=en-US&query=${filter}&page=1&include_adult=false`
+                this.URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_KEY}&language=en-US&query=${this.filter}&page=1&include_adult=false`
                 break;
         }
 
         // get the movies
             const movies = await Axios.get(this.URL);
 
-            if(filter === 'random') {
+            if(filter === 'random' || filter === 'details') {
                 try {
                     await Promise.resolve(movies).then((res) => {
                     
@@ -73,6 +81,9 @@ class UserStore {
             }
             else {
                 await Promise.resolve(movies).then((res) => {
+                    console.log("HERE")
+                    console.log(this.filter);
+                    console.log(res);
                     this.movies = res.data.results;
                     this.isLoading = false;
                 })

@@ -6,12 +6,22 @@ import SearchIcon from '@material-ui/icons/Search';
 import Brightness2Icon from '@material-ui/icons/Brightness2';
 import useForceUpdate from 'use-force-update';
 import Cookie from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 
-const Nav = ({ navigation }) => {
+const Nav = () => {
     const store = useContext(RootStoreContext);
     const [filter, setFilter] = useState('');
     const forceUpdate = useForceUpdate();
+    const history = useHistory();
 
+    const handleSearch = () => {
+        console.log(filter);
+        if (filter !== '') {
+            store.userStore.filter = filter;
+            history.push('/search');
+            forceUpdate();
+        }
+    }
     return (
         <div className="App">
             <Paper square>
@@ -28,12 +38,13 @@ const Nav = ({ navigation }) => {
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', alignSelf: 'flex-end' }}>
                                 <TextField style={{ marginBottom: 15 }} id="standard-basic" label="Enter movie keyword" onChange={(e) => setFilter(e.target.value)} />
-                                <Link to={`/search/:${filter}`}><Button
+                                {/* <Link to={`/search/:${filter}`}><Button
                                     variant="contained"
                                     color="secondary"
                                     size="small"
                                     style={{ margin: 10 }}
-                                    startIcon={<SearchIcon />}>Search</Button></Link>
+                                    startIcon={<SearchIcon />}>Search</Button></Link> */}
+                                <SearchIcon onClick={() => handleSearch()}>Search</SearchIcon>
                                 <Link to="/random" onClick={() => console.log("random")}><Tab label="Random"></Tab></Link>
                                 <Link onClick={() => console.log("logging out")}><Tab label="Logout"></Tab></Link>
                             </div>

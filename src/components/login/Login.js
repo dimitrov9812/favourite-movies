@@ -32,8 +32,9 @@ const Login = ({ navigation }) => {
     const initiateLogin = async (e) => {
         setError('');
         e.preventDefault();
-        const URL = "http://localhost:5000/user/login"
-
+        // const URL = "http://localhost:5000/user/login"
+        const URL = "https://u-auth-api.herokuapp.com/api/user/login"
+        
         try {
             const res = await Axios.post(URL, { email: email, password: password }, { headers: { 'Content-Type': 'application/json' } });
             if (typeof res.data != "object") {

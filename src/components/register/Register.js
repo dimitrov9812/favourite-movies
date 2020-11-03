@@ -26,7 +26,8 @@ const Register = () => {
     const initiateLogin = async (e) => {
         setError('');
         e.preventDefault();
-        const URL = "http://localhost:5000/user/register"
+        // const URL = "http://localhost:5000/user/register"
+        const URL = "https://u-auth-api.herokuapp.com/api/user/register";
 
         try {
             const res = await Axios.post(URL, {username: username, email: email, password: password}, {headers: {'Content-Type':'application/json'}});

@@ -49,3 +49,8 @@
   background-color: black;
   filter: invert(1) hue-rotate(180deg)
 }
+
+.youtube-icon {
+  color:'white';
+  font-size:'100px';
+}

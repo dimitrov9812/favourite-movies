@@ -5,40 +5,24 @@ import { RootStoreContext } from '../../store/RootStore';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { RingLoader } from 'react-spinners';
 
-const Search = (props) => {
+const Search = ({ history }) => {
     const store = useContext(RootStoreContext);
     const [movies, setMovies] = useState({});
     const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
 
     useEffect(() => {
-        setLoading(true);
-        store.userStore.getMovies(props.match.params.filter).then(() => {
-            console.log("after");
-            setMovies(store.userStore.movies);
-            setLoading(false);
-        });
-    }, [props.match.params.filter])
+        store.userStore.filter ? console.log("passing") : history.push('/home');
+    })
 
-    const nextPage = () => {
+    useEffect(() => {
         setLoading(true);
-        store.userStore.page = store.userStore.page + 1;
-        store.userStore.getMovies('top-rated').then(() => {
-            console.log("NEW MOVIES");
+        store.userStore.getMovies('search').then(() => {
             setMovies(store.userStore.movies);
+            console.log(store.userStore.movies);
             setLoading(false);
         });
-    }
-
-    const previousPage = () => {
-        setLoading(true);
-        store.userStore.page = store.userStore.page - 1;
-        store.userStore.getMovies('top-rated').then(() => {
-            console.log("Previous MOVIES");
-            setMovies(store.userStore.movies);
-            setLoading(false);
-        });
-    }
+    }, [store.userStore.filter]);
 
     const scrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
