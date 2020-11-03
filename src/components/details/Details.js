@@ -111,7 +111,7 @@ const Details = ({ history }) => {
     return (
         <div>
             <Nav />
-            <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', backgroundColor: '#e8e7e3' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', backgroundColor: '#e8e7e3',height: '93vh'}}>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '70%', margin: '0 auto' }}>
                     {renderMovieDetails()}
                 </div>

@@ -5,7 +5,7 @@ import { RootStoreContext } from '../../store/RootStore';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { RingLoader } from 'react-spinners';
 
-const Popular = () => {
+const Popular = ({ history }) => {
     const store = useContext(RootStoreContext);
     const [movies, setMovies] = useState({});
     const [loading, setLoading] = useState(false);
@@ -39,6 +39,10 @@ const Popular = () => {
             setLoading(false);
         });
     }
+    const handleMovieSelect = (id) => {
+        store.userStore.selectedMovieId = id;
+        history.push("/details");
+    }
 
     const scrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -46,7 +50,7 @@ const Popular = () => {
     const renderMovieCards = () => {
         return movies.map((movie) => {
             return (
-                <Card style={{ width: '300px', margin: 20 }}>
+                <Card style={{ width: '300px', margin: 20 }} onClick={() => handleMovieSelect(movie.id)}>
                     <CardActionArea>
                         <CardMedia
                             image={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}

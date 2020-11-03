@@ -4,13 +4,20 @@ import { RingLoader } from 'react-spinners';
 import Nav from '../../navigation/Nav';
 import { RootStoreContext } from '../../store/RootStore';
 
-const Random = () => {
+const Random = ({ history }) => {
     const store = useContext(RootStoreContext);
     const [movies, setMovies] = useState({});
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
+        console.log(store.userStore.movies)
+        setTimeout(() => {
+            if(Object.keys(store.userStore.movies).length === 0) {
+                alert("Invalid random movie ID is invalid, please refresh to get another random movie");
+                setLoading(false);
+            }
+        }, 5000);
         store.userStore.getMovies('random').then(() => {
             console.log("after");
             setMovies(store.userStore.movies);
@@ -23,6 +30,11 @@ const Random = () => {
         window.location.reload();
     };
 
+    const handleMovieSelect = (id) => {
+        store.userStore.selectedMovieId = id;
+        history.push("/details");
+    }
+
     const renderMovies = () => {
         if (loading) {
             return (
@@ -32,7 +44,7 @@ const Random = () => {
             return (
                 <div>
                     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                        <Card style={{ width: '300px', margin: 20 }}>
+                        <Card style={{ width: '300px', margin: 20 }} onClick={() => handleMovieSelect(store.userStore.movies.id)}>
                             <CardActionArea>
                                 <CardMedia
                                     image={`https://image.tmdb.org/t/p/w200${store.userStore.movies.poster_path}`}
@@ -53,8 +65,14 @@ const Random = () => {
                         </Card>
                     </div>
                     <div style={{display:'flex',justifyContent:'center', alignContent:'center',}}>
+                        <Button disabled>
+                            Previous page
+                        </Button>
+                        <Button disabled>
+                            Next page
+                        </Button>
                         <Button style={{position:'absolute',right:250}} onClick={() => scrollTop()}>
-                            Get Another
+                            Refresh
                         </Button>
                     </div>
                 </div>
@@ -64,7 +82,7 @@ const Random = () => {
     return (
         <div>
             <Nav />
-            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', backgroundColor: '#e8e7e3'}}>
+            <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', backgroundColor: '#e8e7e3', height: '93vh'}}>
                 <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', width: '80%', margin: '0 auto' }}>
                     {renderMovies()}
                 </div>

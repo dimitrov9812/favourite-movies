@@ -27,10 +27,14 @@ const Search = ({ history }) => {
     const scrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+    const handleMovieSelect = (id) => {
+        store.userStore.selectedMovieId = id;
+        history.push("/details");
+    }
     const renderMovieCards = () => {
         return movies.map((movie) => {
             return (
-                <Card style={{ width: '300px', margin: 20 }}>
+                <Card style={{ width: '300px', margin: 20 }} onClick={() => handleMovieSelect(movie.id)}>
                     <CardActionArea>
                         <CardMedia
                             image={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
@@ -53,7 +57,25 @@ const Search = ({ history }) => {
             )
         })
     }
+    const nextPage = () => {
+        setLoading(true);
+        store.userStore.page = store.userStore.page + 1;
+        store.userStore.getMovies('top-rated').then(() => {
+            console.log("NEW MOVIES");
+            setMovies(store.userStore.movies);
+            setLoading(false);
+        });
+    }
 
+    const previousPage = () => {
+        setLoading(true);
+        store.userStore.page = store.userStore.page - 1;
+        store.userStore.getMovies('top-rated').then(() => {
+            console.log("Previous MOVIES");
+            setMovies(store.userStore.movies);
+            setLoading(false);
+        });
+    }
     const renderMovies = () => {
         if (loading) {
             return (
@@ -68,6 +90,12 @@ const Search = ({ history }) => {
                         {renderMovieCards()}
                     </div>
                     <div style={{display:'flex',justifyContent:'center', alignContent:'center',}}>
+                        <Button disabled onClick={() => previousPage()}>
+                            Previous page
+                        </Button>
+                        <Button disabled onClick={() => nextPage()}>
+                            Next page
+                        </Button>
                         <Button style={{position:'absolute',right:250}} onClick={() => scrollTop()}>
                             Scroll to Top
                         </Button>
